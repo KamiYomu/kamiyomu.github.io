@@ -3,6 +3,11 @@ title: Create your Own Crawler Agents
 parent: Crawler Agents
 ---
 
+{% capture crawler_agent_note %}
+{% include note-crawler-agents.md %}
+{% endcapture %}
+{{ crawler_agent_note | markdownify }}
+
 #  Create your Own Crawler Agents
 
 To create your first crawler agent, follow these steps:

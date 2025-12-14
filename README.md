@@ -1,6 +1,6 @@
 # KamiYomu Documentation
 
-The **KamiYomu Documentation** (https://kamiyomu.github.io/KamiYomu/) is the official website and resource center for the KamiYomu manga crawler project, providing guides, technical specifications, and usage instructions. Contributions and improvements are highly encouraged via **Pull Requests**.
+The **KamiYomu Documentation** (https://kamiyomu.github.io/) is the official website and resource center for the KamiYomu manga crawler project, providing guides, technical specifications, and usage instructions. Contributions and improvements are highly encouraged via **Pull Requests**.
 
 ## How to Contribute
 
@@ -11,19 +11,19 @@ To contribute documentation, fix typos, or update guides, follow these steps to 
 1. Clone the repository, ensuring you include any necessary submodules:
 
     ```bash
-    git clone https://github.com/KamiYomu/KamiYomu.git
+    git clone https://github.com/KamiYomu/kamiyomu.github.io.git
     ```
 
 2. Navigate to the project directory (assuming the repository is named `KamiYomu`):
 
     ```bash
-    cd KamiYomu/src/KamiYomu.Docs
+    cd kamiyomu.github.io/src/KamiYomu.Docs
     ```
 
 3. Build and launch the development environment using Docker to ensure all dependencies are met:
 
     ```bash
-    docker-compose up --build -d
+    docker-compose up --build
     ```
 
 4. Access the documentation site locally at `http://localhost:4000`. Changes to the Markdown files will automatically reload in your browser.

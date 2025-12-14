@@ -4,7 +4,10 @@ parent: Getting Started
 nav_order: 3
 ---
 
+
 # Download Mangas
+
+For downloading Manga, you need to [Install a crawler agent]({{ 'docs/crawler-agents/install-crawler-agents' | relative_url }}) in KamiYomu.
 
 1. Go to Download
 1. Select the installed crawler agent
@@ -34,3 +37,9 @@ nav_order: 3
     - CBZ (Which is a zip file)
 
 <img src="{{ '/assets/tutorial/download-chapter-pdf.gif' | relative_url }}" height="300"/>
+
+
+{% capture manga_file_note %}
+{% include note-manga-file.md %}
+{% endcapture %}
+{{ manga_file_note | markdownify }}
