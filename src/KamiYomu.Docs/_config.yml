@@ -70,8 +70,8 @@ social:
     - https://github.com/KamiYomu/kamiyomu
 
 # Analytics
-google_analytics: UA-XXXXXXXX-X
-google_site_verification: google-site-verification-code
+ga_tracking: G-Y3ZC47Q4VM
+ga_tracking_anonymize_ip: true 
 
 # Sitemap settings
 sitemap:
