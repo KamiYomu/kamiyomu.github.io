@@ -9,189 +9,239 @@ nav_order: 2
 {% endcapture %}
 {{ crawler_agent_note | markdownify }}
 
+
 ## Overview
 
 Create custom Crawler Agents to integrate new manga sources with KamiYomu. This guide walks you through setup, implementation, and debugging.
 
-[![KamiYomu/KamiYomu.CrawlerAgents.Core- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.Core&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.Core/)
-
 ## Prerequisites
 
-- .NET 8.0 SDK installed
-- Visual Studio or preferred C# IDE
-- NuGet package reference to `KamiYomu.CrawlerAgents.Core`
+- .NET 8.0 SDK or later
+- Visual Studio, VS Code, or preferred C# IDE
+- NuGet package: `KamiYomu.CrawlerAgents.Core` (v1.1.4+)
 
 ## Step 1: Project Setup
 
-1. Create a new **Class Library** project (.NET 8.0)
-2. Add NuGet package: `KamiYomu.CrawlerAgents.Core` (v1.1.4+)
-3. Configure your `.csproj` file:
+### Create and Configure Project
+
+1. Create a new **Class Library** project targeting **.NET 8.0**
+2. Add the NuGet package dependency:
+  ```bash
+  dotnet add package KamiYomu.CrawlerAgents.Core --version 1.1.4
+  ```
+[![KamiYomu/KamiYomu.CrawlerAgents.Core- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.Core&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.Core/)
+
+3. Configure your `.csproj` file with required metadata:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+   <TargetFramework>net8.0</TargetFramework>
+   <ImplicitUsings>enable</ImplicitUsings>
+   <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Your Crawler Agent Name</Title>
-    <Description>A crawler agent for accessing public data. Built on KamiYomu.CrawlerAgents.Core.</Description>
-    <Authors>Your Name</Authors>
-    <PackageTags>kamiyomu-crawler-agents</PackageTags>
+   <Title>Your Crawler Agent Name</Title>
+   <Description>A crawler agent for accessing public data. Built on KamiYomu.CrawlerAgents.Core.</Description>
+   <Authors>Your Name</Authors>
+   <PackageTags>kamiyomu-crawler-agents</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <IncludeSymbols>True</IncludeSymbols>
+   <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+   <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KamiYomu.CrawlerAgents.Core" Version="1.1.4" />
+   <PackageReference Include="KamiYomu.CrawlerAgents.Core" Version="1.1.4" />
   </ItemGroup>
 </Project>
 ```
 
-> **Required**: Include `kamiyomu-crawler-agents` in `<PackageTags>` for KamiYomu discovery.
+> **⚠️ Important**: Include `kamiyomu-crawler-agents` in `<PackageTags>` to enable KamiYomu discovery.
 
-## Step 2: Implement ICrawlerAgent Interface
+## Step 2: Implement the ICrawlerAgent Interface
 
-Create a class implementing `AbstractCrawlerAgent, ICrawlerAgent, IDisposable` and extends:
+### Required Interface
+
+Your agent must implement `AbstractCrawlerAgent`, `ICrawlerAgent`, and `IDisposable`:
 
 ```csharp
 public interface ICrawlerAgent : IDisposable
 {
-    /// <summary>Retrieves the favicon URI of the target site.</summary>
-    Task<Uri> GetFaviconAsync(CancellationToken cancellationToken);
+   /// <summary>Retrieves the favicon URI of the target site.</summary>
+   Task<Uri> GetFaviconAsync(CancellationToken cancellationToken);
 
-    /// <summary>Searches for manga titles matching the query.</summary>
-    Task<PagedResult<Manga>> SearchAsync(string titleName, PaginationOptions paginationOptions, CancellationToken cancellationToken);
+   /// <summary>Searches for manga titles matching the query.</summary>
+   Task<PagedResult<Manga>> SearchAsync(
+      string titleName, 
+      PaginationOptions paginationOptions, 
+      CancellationToken cancellationToken);
 
-    /// <summary>Retrieves detailed manga information by ID.</summary>
-    Task<Manga> GetByIdAsync(string id, CancellationToken cancellationToken);
+   /// <summary>Retrieves detailed manga information by ID.</summary>
+   Task<Manga> GetByIdAsync(string id, CancellationToken cancellationToken);
 
-    /// <summary>Retrieves chapters for a manga.</summary>
-    Task<PagedResult<Chapter>> GetChaptersAsync(Manga manga, PaginationOptions paginationOptions, CancellationToken cancellationToken);
+   /// <summary>Retrieves chapters for a manga.</summary>
+   Task<PagedResult<Chapter>> GetChaptersAsync(
+      Manga manga, 
+      PaginationOptions paginationOptions, 
+      CancellationToken cancellationToken);
 
-    /// <summary>Retrieves page images for a chapter.</summary>
-    Task<IEnumerable<Page>> GetChapterPagesAsync(Chapter chapter, CancellationToken cancellationToken);
+   /// <summary>Retrieves page images for a chapter.</summary>
+   Task<IEnumerable<Page>> GetChapterPagesAsync(
+      Chapter chapter, 
+      CancellationToken cancellationToken);
 }
 ```
 
-Example:
+### Basic Implementation Template
 
 ```csharp
 [DisplayName("My Wonderful Crawler Agent")]
 public class MyCrawlerAgent : AbstractCrawlerAgent, ICrawlerAgent, IDisposable
 {
-  public MyCrawlerAgent(IDictionary<string, object> options) : base(options)
-  {
+   public MyCrawlerAgent(IDictionary<string, object> options) 
+      : base(options)
+   {
+      // Initialize your agent with options
+   }
 
-  }
+   public Task<Uri> GetFaviconAsync(CancellationToken cancellationToken)
+   {
+      throw new NotImplementedException();
+   }
+
+   public Task<PagedResult<Manga>> SearchAsync(
+      string titleName, 
+      PaginationOptions paginationOptions, 
+      CancellationToken cancellationToken)
+   {
+      throw new NotImplementedException();
+   }
+
+   // Implement remaining interface members...
 }
 ```
 
-### Options Configuration
+### Understanding the Options Dictionary
 
-The `IDictionary<string, object> options` is provided by the KamiYomu Application and can be viewed on the Crawler Agent Edit page. You can define form fields that users can modify, and these values will be received by your agent.
+The `IDictionary<string, object> options` parameter contains configuration passed from the KamiYomu application. Users can modify these values on the Crawler Agent configuration page.
 
-#### Default Options
+#### Built-in Options
 
-The following default options are available:
+| Option | Property | Description |
+|--------|----------|-------------|
+| **KamiYomuILogger** | `Logger` | Logging interface for debugging and monitoring |
+| **BrowserUserAgent** | `HttpClientDefaultUserAgent` | HTTP user agent string for requests |
+| **HttpClientTimeout** | `TimeoutMilliseconds` | HTTP timeout in milliseconds |
 
-- **KamiYomuILogger**: For logging purposes. Access via the `Logger` property for debugging and monitoring.
-- **BrowserUserAgent**: The user agent string used for HTTP requests. Access via the `HttpClientDefaultUserAgent` property for HTTP and browser requests.
-- **HttpClientTimeout**: The maximum duration for executing an HTTP task.  Access via the `TimeoutMilliseconds` property to control task execution duration.
+#### Custom Options
 
-#### Additional Options
+Add custom configuration fields using **Crawler Inputs** (see Step 3 below).
 
-You can extend the `options` dictionary with more values using `Crawler Inputs` as needed for your specific implementation.
+## Step 3: Add Configuration Inputs
 
-## Step 3: Reference Implementations
+### Crawler Input Types
 
-Choose based on your data source:
+| Type | Use Case | Example |
+|------|----------|---------|
+| **CrawlerText** | Single-line text | API keys, URLs, usernames |
+| **CrawlerPassword** | Sensitive data | Passwords, API secrets |
+| **CrawlerSelect** | Dropdown choices | Language, quality settings |
+| **CrawlerCheckBox** | Multiple toggles | Feature flags, preferences |
 
-- Web API consumption
+### Attribute Declaration Syntax
+
+```csharp
+[CrawlerInputType(
+   "fieldKey",           // Dictionary key
+   "Display Label",      // User-facing label
+   required,             // Is mandatory?
+   "defaultValue",       // Initial value
+   displayOrder,         // UI position
+   ["option1", "option2"] // Available options (Select/CheckBox only)
+)]
+```
+
+### Complete Example
+
+```csharp
+[DisplayName("My Wonderful Crawler Agent")]
+[CrawlerSelect("Language", "Select language", true, "en", 1, new[] { "en", "pt_br", "pt" })]
+[CrawlerText("ApiKey", "API Key", true, "", 2)]
+[CrawlerPassword("ApiSecret", "API Secret", false, "", 3)]
+[CrawlerCheckBox("Features", "Enable features", true, new[] { "cache" }, 4, 
+   new[] { "cache", "notifications", "logging" })]
+public class MyCrawlerAgent : AbstractCrawlerAgent, ICrawlerAgent, IDisposable
+{
+   public MyCrawlerAgent(IDictionary<string, object> options) : base(options)
+   {
+      // Access configuration values
+      var language = options["Language"] as string;        // "en"
+      var apiKey = options["ApiKey"] as string;
+      var secret = options["ApiSecret"] as string;
+      var cacheEnabled = (options["Features.cache"] as string)?.ToLower() == "true";
+   }
+}
+```
+
+## Step 4: Build and Deploy
+
+### Local Build
+
+1. Build your project in **Debug** mode:
+  ```bash
+  dotnet build --configuration Debug
+  ```
+  This generates a `.nupkg` package in `bin/Debug`
+
+2. Navigate to KamiYomu's **Crawler Agents** section
+3. Import the `.nupkg` file
+
+### Publish to NuGet (Optional)
+
+```bash
+dotnet nuget push bin/Release/*.nupkg --api-key YOUR_API_KEY --source https://api.nuget.org/v3/index.json
+```
+
+## Step 6: Debug Your Agent
+
+### Enable Debug Symbols
+
+Your `.csproj` already configures symbol generation. When building in Debug mode, `.pdb` files are created.
+
+### Import and Configure Debugging
+
+1. Import your `.nupkg` into KamiYomu
+2. Copy the `.pdb` file to:
+  ```
+  src/AppData/agents/{agent-name}/lib/net8.0/
+  ```
+
+3. Open `CrawlerAgentDecorator.cs` in KamiYomu.Web and set breakpoints
+4. Step through agent method calls to trace execution
+
+### Testing
+
+Use the **Validator** console application to verify your agent before production deployment.
+
+
+## Reference Implementations
+
+### Web API Consumption
+
+For APIs like MangaDex:
 
 [![KamiYomu/KamiYomu.CrawlerAgents.MangaDex- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.MangaDex&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaDex/)
 
-- Web scraping
+### Web Scraping
+
+For HTML-based sources:
 
 [![KamiYomu/KamiYomu.CrawlerAgents.MangaKatana- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.MangaKatana&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaKatana/)
 
 [![KamiYomu/KamiYomu.CrawlerAgents.MangaFire- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.MangaFire&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaFire/)
-
-
-## Step 4: Build & Deploy
-
-1. Build your project in Debug mode (generates `.nupkg`)
-2. Navigate to KamiYomu **Crawler Agents** section
-3. Import the `.nupkg` from `bin/Debug`
-4. Publish to NuGet.org (optional)
-
-## Debugging Your Agent
-
-### Configure Debug Build
-
-Your `.csproj` already includes symbol generation. Build in Debug mode to generate `.pdb` files.
-
-### Import & Copy Symbols
-
-1. Import the `.nupkg` into KamiYomu
-2. Copy the `.pdb` file to: `src\AppData\agents\{agent-name}\lib\net8.0\`
-
-### Debug Breakpoints
-
-- Set breakpoints in `CrawlerAgentDecorator.cs` (KamiYomu.Web)
-- Step into agent method calls to debug your implementation
-
-> **Tip**: Use the Validator console app to verify your agent before deployment.
-
-## Crawler Inputs
-
-Use `Crawler Inputs` to let users provide custom configuration values to your agent. These values are passed through the `options` dictionary in your constructor.
-
-### Available Input Types
-
-| Type | Purpose | Usage |
-|------|---------|-------|
-| **CrawlerText** | Single-line text input | API keys, URLs, usernames |
-| **CrawlerPassword** | Masked password input | Sensitive credentials |
-| **CrawlerSelect** | Dropdown selection | Language, quality preferences |
-| **CrawlerCheckBox** | Multiple toggleable options | Feature flags, preferences |
-
-### Example Implementation
-
-```csharp
-[DisplayName("My Wonderful Crawler Agent")]
-[CrawlerSelect("Language", "Select language", true, "en", 1, ["en", "pt_br", "pt"])]
-[CrawlerText("ApiKey", "API Key", true, "", 2)]
-[CrawlerPassword("ApiSecret", "API Secret", "", 3)]
-[CrawlerCheckBox("Features", "Enable features", true, "cache", 4, ["cache", "notifications", "logging"])]
-public class MyCrawlerAgent : AbstractCrawlerAgent, ICrawlerAgent, IDisposable
-{
-  public MyCrawlerAgent(IDictionary<string, object> options) : base(options)
-  {
-    var language = options["Language"] as string; // "en"
-    var apiKey = options["ApiKey"] as string;
-    var secret = options["ApiSecret"] as string;
-    var cacheEnabled = bool.Parse(options["Features.cache"].ToString());
-    var notificationsEnabled = bool.Parse(options["Features.notifications"].ToString());
-  }
-}
-```
-
-### Attribute Parameters
-
-Each attribute requires:
-1. **Key name** - Dictionary key for retrieving the value
-2. **Display label** - User-friendly field name
-3. **Required** (optional) - Whether field is mandatory
-4. **Default value** - Initial value shown to users
-5. **Order** - Display sequence in the UI
-6. **Options** (for Select/CheckBox) - Available choices
-
 
 
 
