@@ -10,42 +10,16 @@ title: Crawler Agents
 
 ## List of Official Crawler Agents
 
-<img src="https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaDex/blob/main/src/KamiYomu.CrawlerAgents.MangaDex/Resources/logo.png?raw=true" width="100" height="100" />
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.MangaDex" markdown="1" %}
 
- [MangaDex](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaDex)
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.MangaFire" markdown="1" %}
 
-```sh
-dotnet add package KamiYomu.CrawlerAgents.MangaDex --version <version>
-```
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.MangaKatana" markdown="1" %}
 
-<img src="https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaPark/blob/main/src/KamiYomu.CrawlerAgents.MangaPark/Resources/logo.png?raw=true" width="100" height="100" />
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.MangaPark" markdown="1" %}
 
-[Manga Park](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaPark)
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.MundoAvatar" markdown="1" %}
 
-```sh
-dotnet add package KamiYomu.CrawlerAgents.MangaPark --version <version>
-```
+{% include note-nuget-package.md package="KamiYomu.CrawlerAgents.AsuraComic" markdown="1" %}
 
-<img src="https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaFire/blob/main/src/KamiYomu.CrawlerAgents.MangaFire/Resources/logo.png?raw=true" width="100" height="100" />
 
-[Manga Fire](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaFire)
-
-```sh
-dotnet add package KamiYomu.CrawlerAgents.MangaFire --version <version> 
-```
-
-<img src="https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaKatana/blob/main/src/KamiYomu.CrawlerAgents.MangaKatana/Resources/logo.png?raw=true" width="100" height="100" />
-
-[Manga Katana](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaKatana)
-
-```sh
-dotnet add package KamiYomu.CrawlerAgents.MangaKatana --version <version> 
-```
-
-<img src="https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MundoAvatar/blob/main/src/KamiYomu.CrawlerAgents.MundoAvatar/Resources/logo.png?raw=true" width="100" height="100" />
-
-[Mundo Avatar](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MundoAvatar)
-
-```sh
- dotnet add package KamiYomu.CrawlerAgents.MundoAvatar --version <version> 
-```

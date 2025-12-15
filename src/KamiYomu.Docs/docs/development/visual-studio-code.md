@@ -17,17 +17,16 @@ To get started with local development using Visual Studio Code, ensure the follo
 
 Note: Make sure Docker is installed and running on your machine.
 
-1. Clone the Repository
+{% capture clone_repo_note %}
+{% include note-clone-repo.md %}
+{% endcapture %}
+{{ clone_repo_note | markdownify }}
 
-```bash
-    git clone https://github.com/KamiYomu/KamiYomu.Web.git
-```
-
-2. Running the Project in VS Code
-- Open the `./src/` folder in VS Code.
-- Navigate to the "Run and Debug" tab (Ctrl+Shift+D) or press `F5`.
-- Select the launch configuration: "Attach to .NET Core in Docker".
-- Click the ▶️ Start Debugging button.
+- Running the Project in VS Code
+  - Open the `./src/` folder in VS Code.
+  - Navigate to the "Run and Debug" tab (Ctrl+Shift+D) or press `F5`.
+  - Select the launch configuration: "Attach to .NET Core in Docker".
+  - Click the ▶️ Start Debugging button.
 
 
 This project includes predefined tasks to build and run the Docker container automatically.

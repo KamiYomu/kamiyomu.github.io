@@ -121,7 +121,7 @@ services:
     networks:
       - manga_network
     environment:
-      - TZ=Etc/UTC
+      - TZ=America/Toronto
       - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
     volumes:
       # Map the dedicated config volume
