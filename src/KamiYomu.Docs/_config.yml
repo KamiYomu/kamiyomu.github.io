@@ -1,12 +1,49 @@
+# ===============================================
+# SEO & SOCIAL SETTINGS
+# ===============================================
 title: KamiYomu
+tagline: Self-Hosted Manga Downloader & Scraper in C#.NET
+lang: en
+author: KamiYomu
+description: >
+  KamiYomu is an open-source, self-hosted manga downloader and scraper built in C#.NET.
+  It provides seamless integration with Kavita and Konga, enabling fast, automated manga
+  crawling, downloading, and library management. Ideal for developers and manga fans
+  seeking full control, reliability, and customization in their collections.
+keywords: >
+  manga downloader, manga scraper, self-hosted manga, dotnet manga crawler,
+  kamiyomu, kavita integration, konga manga, csharp manga tools,
+  open source manga downloader, manga automation, manga library manager,
+  manga crawler agents, manga reader integration, manga hosting solution,
+  manga collection management, manga server setup, manga archiving tool
 url: "https://kamiyomu.github.io"
 repository: https://github.com/KamiYomu/KamiYomu
-description: >
-  KamiYomu is a powerful, extensible manga crawler built for manga enthusiasts who want full control
-  over their collection. It scans and downloads manga from supported websites, 
-  stores them locally, and lets you host your own private manga reader—no ads, 
-  no subscriptions, no limits.
 
+# Open Graph / Social Media
+og_image: /assets/images/kamiyomu-preview.png
+twitter_card: summary_large_image
+twitter_username: kamiyomu
+
+social:
+  - name: Github
+    links:
+      - https://github.com/KamiYomu/kamiyomu
+  - name: NuGet
+    links:
+      - https://www.nuget.org/profiles/KamiYomu
+
+# ===============================================
+# JEKYLL PLUGIN & PATH DEFAULTS
+# ===============================================
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-redirect-from
+  - jekyll-mentions
+  - jemoji
+  
 # ===============================================
 # JUST THE DOCS THEME SETTINGS
 # ===============================================
@@ -26,17 +63,7 @@ gh_edit_branch: "main" # the branch that your docs is served from
 gh_edit_source: src/KamiYomu.Docs # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
-# ===============================================
-# JEKYLL PLUGIN & PATH DEFAULTS
-# ===============================================
 
-plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-redirect-from
-  - jekyll-mentions
-  - jemoji
   
 defaults:
   - scope:
@@ -47,27 +74,6 @@ defaults:
       layout: "default"
       image: /assets/images/favicon.png
       author: KamiYomu
-
-# ===============================================
-# SEO & SOCIAL SETTINGS
-# ===============================================
-
-# SEO settings
-tagline: KamiYomu — Your Self-Hosted Manga Crawler
-lang: en
-author: KamiYomu
-keywords: >
-  crawler, downloader, csharp, dotnet,
-  manga, manga-downloader, manga-scraper, 
-  konga, kavita, kamiyomu, crawler-agents
-
-# Open Graph / Social Media
-og_image: /assets/images/favicon.png
-
-social:
-  name: Github
-  links:
-    - https://github.com/KamiYomu/kamiyomu
 
 # Analytics
 ga_tracking: G-Y3ZC47Q4VM
