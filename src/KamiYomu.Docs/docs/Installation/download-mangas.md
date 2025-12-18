@@ -43,3 +43,9 @@ For downloading Manga, you need to [Install a crawler agent]({{ 'docs/crawler-ag
 {% include note-manga-file.md %}
 {% endcapture %}
 {{ manga_file_note | markdownify }}
+
+
+{% capture download_status_note %}
+{% include note-download-status.md %}
+{% endcapture %}
+{{ download_status_note | markdownify }}
