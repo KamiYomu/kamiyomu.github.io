@@ -2,11 +2,11 @@
 # SEO & SOCIAL SETTINGS
 # ===============================================
 title: KamiYomu
-tagline: Self-Hosted Manga Downloader & Scraper in C#.NET
+tagline: Self-Hosted Manga Downloader & Scraper
 lang: en
 author: KamiYomu
 description: >
-  KamiYomu is an open-source, self-hosted manga downloader and scraper built in C#.NET.
+  KamiYomu is the best, free and open-source, self-hosted manga downloader and scraper built in C#.NET.
   It provides seamless integration with Kavita and Konga, enabling fast, automated manga
   crawling, downloading, and library management. Ideal for developers and manga fans
   seeking full control, reliability, and customization in their collections.
