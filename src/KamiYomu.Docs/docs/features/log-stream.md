@@ -5,7 +5,16 @@ parent: Features
 
 # Log Stream
 
-Each action in KamiYomu produces logs that you can view in the log stream to track progress and troubleshoot issues. The log stream displays "Info", "Warning", "Error", and "Fatal" level logs to help with debugging. For detailed logs including debug level messages, use Docker container logs with `docker logs kamiyomu --stream`.
+KamiYomu logs all actions to provide visibility into operation progress and facilitate troubleshooting. The log stream displays **Info**, **Warning**, **Error**, and **Fatal** level logs.
+
+For detailed diagnostics including **Debug** level messages, use Docker container logs:
+
+```bash
+docker logs --follow kamiyomu
+```
+
+> **Note:** Replace `kamiyomu` with your actual container name if different.
+
 
 # System Information
 
