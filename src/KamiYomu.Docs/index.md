@@ -14,6 +14,16 @@ Whether you're cataloging rare series, powering a personal manga dashboard, or s
 
 ---
 
+## Community
+
+Join the conversation and be part of the KamiYomu community:
+
+[![Discord](https://flat.badgen.net/badge/Discord/channel/5865F2?icon=discord)](https://discord.com/channels/1451623083604443138)
+[![Join the discussion on Reddit](https://badgen.net/badge/reddit/kamiyomu/orange?icon=reddit)](https://www.reddit.com/r/KamiYomu/)
+[![Github Discussion](https://flat.badgen.net/badge/GitHub/Discussions/blue?icon=github)](https://github.com/orgs/KamiYomu/discussions)
+
+---
+
 ## ✨ Features
 
 - 🔍 **Automated Crawling**  
