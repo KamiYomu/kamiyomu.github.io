@@ -15,7 +15,9 @@ A `.cbz` file is simply a **ZIP archive** that has been renamed. Inside this arc
 
 For applications like Kavita or Komga to recognize and correctly group your library, manga files must follow a strict folder hierarchy:
 
+{: .note }
 > `[Manga Title] / [Volume Number] / [Chapter File].cbz`
+{: .note }
 
 For example:
 

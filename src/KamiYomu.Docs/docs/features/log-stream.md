@@ -13,8 +13,9 @@ For detailed diagnostics including **Debug** level messages, use Docker containe
 docker logs --follow kamiyomu
 ```
 
+{: .note }
 > **Note:** Replace `kamiyomu` with your actual container name if different.
-
+{: .note }
 
 # System Information
 

@@ -12,15 +12,20 @@ nav_order: 1
 
 Whether you're cataloging rare series, powering a personal manga dashboard, or seeking a cleaner alternative to bloated online readers, KamiYomu puts you in control of how you access and organize manga content. It’s a lightweight, developer-friendly crawler built for clarity, extensibility, and respectful use of publicly accessible sources. Content availability and usage rights depend on the licensing terms of each source — KamiYomu simply provides the tools.
 
+[![GitHub followers](https://img.shields.io/github/followers/kamiyomu)](https://github.com/orgs/KamiYomu/followers)
+[![GitHub stars](https://img.shields.io/github/stars/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/graphs/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/issues)
+[![GitHub License](https://img.shields.io/github/license/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/blob/main/LICENSE)
+
+
 ---
 
 ## Community
 
 Join the conversation and be part of the KamiYomu community:
 
-[![Discord](https://flat.badgen.net/badge/Discord/channel/5865F2?icon=discord)](https://discord.com/channels/1451623083604443138)
-[![Join the discussion on Reddit](https://badgen.net/badge/reddit/kamiyomu/orange?icon=reddit)](https://www.reddit.com/r/KamiYomu/)
-[![Github Discussion](https://flat.badgen.net/badge/GitHub/Discussions/blue?icon=github)](https://github.com/orgs/KamiYomu/discussions)
+[![Join the discussion on Github](https://img.shields.io/github/discussions/kamiyomu/kamiyomu?logo=github&label=Join%20the%20community)](https://github.com/KamiYomu/KamiYomu/discussions)
 
 ---
 
