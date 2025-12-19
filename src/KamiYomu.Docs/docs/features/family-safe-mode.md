@@ -9,7 +9,7 @@ Family Safe Mode is designed to hide NSFW content from websites within your Kami
 
 ## Overview
 
-{: .highlight }
+{: .note }
 > **Note:** Family Safe Mode only hides content visually. Downloads will continue to process in the background.
 
 ## Enabling and Disabling

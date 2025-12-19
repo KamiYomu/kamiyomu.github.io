@@ -26,6 +26,7 @@ Create custom Crawler Agents to integrate new manga sources with KamiYomu. This 
 
 1. Create a new **Class Library** project targeting **.NET 8.0**
 2. Add the NuGet package dependency:
+
   ```bash
   dotnet add package KamiYomu.CrawlerAgents.Core --version 1.1.4
   ```

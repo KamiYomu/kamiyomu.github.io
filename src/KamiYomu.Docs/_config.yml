@@ -91,6 +91,23 @@ sitemap:
   change_frequency_name: "change_frequency"
   priority_name: "priority"
 
+color_scheme: light
+callouts:
+  highlight:
+    title: Highlight
+    color: blue
+  important:
+    title: Important
+    color: blue
+  note:
+    title: Note
+    color: blue
+  warning:
+    title: Warning
+    color: yellow
+  danger:
+    title: Danger
+    color: red
 # ===============================================
 # EXCLUDES
 # ===============================================
