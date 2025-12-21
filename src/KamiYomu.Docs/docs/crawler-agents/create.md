@@ -59,8 +59,19 @@ Create custom Crawler Agents to integrate new manga sources with KamiYomu. This 
   </ItemGroup>
 </Project>
 ```
-
+{: .warning }
 > **⚠️ Important**: Include `kamiyomu-crawler-agents` in `<PackageTags>` to enable KamiYomu discovery.
+{: .warning }
+
+
+The project file (`.csproj`) includes the package `KamiYomu.CrawlerAgents.Core`.
+
+`KamiYomu.CrawlerAgents.Core` natively references `PuppeteerSharp`, which can be used to create and control a Chromium browser instance.
+
+The default Chromium installation configuration is available in the project's [Dockerfile](https://github.com/KamiYomu/KamiYomu/blob/main/src/KamiYomu.Web/Dockerfile)
+
+Web scraping can be performed using the `HtmlAgilityPack` library. We recommend reviewing the existing crawler agents to understand how to construct the core objects: `PagedResult<T>`, `Manga`, `Chapter`, and `Page`.
+
 
 ## Step 2: Implement the ICrawlerAgent Interface
 
@@ -244,6 +255,160 @@ For HTML-based sources:
 
 [![KamiYomu/KamiYomu.CrawlerAgents.MangaFire- GitHub](https://github-readme-stats.vercel.app/api/pin/?username=KamiYomu&repo=KamiYomu.CrawlerAgents.MangaFire&show_icons=true&theme=tokyonight&border_radius=8&hide_border=true&description_lines_count=3)](https://github.com/KamiYomu/KamiYomu.CrawlerAgents.MangaFire/)
 
+
+
+## Example of Constructor
+
+Example of how to initialize the crawler agent
+
+```csharp
+public class YourCrawlerAgent : AbstractCrawlerAgent, ICrawlerAgent
+{
+    // Tracks whether the object has already been disposed
+    private bool _disposed = false;
+
+    // Base URL of the website your crawler will target
+    private readonly Uri _baseUri;
+
+    // Lazy-initialized Chromium browser instance (PuppeteerSharp)
+    // Browser is only created when first requested
+    private Lazy<Task<IBrowser>> _browser;
+
+    // Timezone used when emulating the browser environment
+    private readonly string _timezone;
+
+    public YourCrawlerAgent(IDictionary<string, object> options) : base(options)
+    {
+        _baseUri = new Uri("https://YourCrawlerWebSite.com");
+
+        // Lazy initialization ensures the browser is created only when needed
+        _browser = new Lazy<Task<IBrowser>>(CreateBrowserAsync, true);
+
+        // PuppeteerSharp requires different timezone identifiers depending on OS
+        _timezone = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            ? "Eastern Standard Time"
+            : "America/New_York";
+    }
+
+    // Returns the browser instance, creating it if necessary
+    public Task<IBrowser> GetBrowserAsync() => _browser.Value;
+
+    // Creates and launches a headless Chromium instance
+    private async Task<IBrowser> CreateBrowserAsync()
+    {
+        var launchOptions = new LaunchOptions
+        {
+            Headless = true,
+            Timeout = TimeoutMilliseconds,
+            Args =
+            [
+                "--disable-blink-features=AutomationControlled", // Helps avoid bot detection
+                "--no-sandbox",                                  // Required in many container environments
+                "--disable-dev-shm-usage"                        // Prevents crashes in low-shared-memory systems
+            ]
+        };
+
+        return await Puppeteer.LaunchAsync(launchOptions);
+    }
+
+    // Prepares a Puppeteer page before navigation:
+    // - Logs console output
+    // - Neutralizes bot-detection scripts
+    // - Freezes time
+    // - Sets timezone
+    private async Task PreparePageForNavigationAsync(IPage page)
+    {
+        // Capture browser console logs for debugging
+        page.Console += (sender, e) =>
+        {
+            Logger?.LogDebug($"[Browser Console] {e.Message.Type}: {e.Message.Text}");
+
+            // Log console arguments if present
+            if (e.Message.Args != null)
+            {
+                foreach (var arg in e.Message.Args)
+                {
+                    Logger?.LogDebug($"   Arg: {arg.RemoteObject.Value}");
+                }
+            }
+        };
+
+        // Inject JavaScript BEFORE any page scripts run
+        // Helps bypass simple anti-bot checks
+        await page.EvaluateExpressionOnNewDocumentAsync(@"
+                // Neutralize devtools detection
+                const originalLog = console.log;
+                console.log = function(...args) {
+                    if (args.length === 1 && args[0] === '[object HTMLDivElement]') {
+                        return; // skip detection trick
+                    }
+                    return originalLog.apply(console, args);
+                };
+
+                // Override reload to do nothing
+                window.location.reload = () => console.log('Reload prevented');
+            ");
+
+        // Set the browser's timezone
+        await page.EmulateTimezoneAsync(_timezone);
+
+        // Freeze time to the current system time
+        var fixedDate = DateTime.Now;
+        var fixedDateIso = fixedDate.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+
+        await page.EvaluateExpressionOnNewDocumentAsync($@"
+                // Freeze time to a specific date
+                const fixedDate = new Date('{fixedDateIso}');
+                Date = class extends Date {
+                    constructor(...args) {
+                        if (args.length === 0) {
+                            return fixedDate;
+                        }
+                        return super(...args);
+                    }
+                    static now() {
+                        return fixedDate.getTime();
+                    }
+                };
+            ");
+    }
+
+    // Standard .NET dispose pattern
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            // Dispose browser only if it was created
+            if (_browser.IsValueCreated)
+            {
+                var browserTask = _browser.Value;
+                if (browserTask.IsCompletedSuccessfully)
+                {
+                    browserTask.Result.Dispose();
+                }
+            }
+        }
+
+        _disposed = true;
+    }
+
+    // Finalizer (only needed if unmanaged resources exist)
+    ~YourCrawlerAgent()
+    {
+        Dispose(disposing: false);
+    }
+
+    // Public Dispose method for releasing resources deterministically
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+}
+```
 
 
 

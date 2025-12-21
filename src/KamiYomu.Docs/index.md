@@ -19,7 +19,6 @@ Whether you're cataloging rare series, powering a personal manga dashboard, or s
 [![GitHub issues](https://img.shields.io/github/issues/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/issues)
 [![GitHub License](https://img.shields.io/github/license/kamiyomu/kamiyomu)](https://github.com/kamiyomu/kamiyomu/blob/main/LICENSE)
 
-
 ---
 
 ## Community
@@ -44,7 +43,7 @@ Join the conversation and be part of the KamiYomu community:
 - 🛠️ **Built with .NET Razor Pages**  
   Lightweight, maintainable, and easy to extend.
 
-
+----
 
 ## ⚠️ What KamiYomu Does and Does Not
 
