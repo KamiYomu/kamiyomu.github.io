@@ -1,0 +1,51 @@
+#changelog {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.release-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.release-card .card-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.release-card .date {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.release-card .card-body {
+  margin-top: 1rem;
+}
+
+.release-card .card-section {
+  margin-top: 1.25rem;
+}
+
+.release-card ul.assets {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.release-card ul.assets li {
+  margin-bottom: 0.4rem;
+}
+
+.release-card ul.assets a {
+  font-weight: 600;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.release-card ul.assets a:hover {
+  text-decoration: underline;
+}
